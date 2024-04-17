@@ -14,7 +14,8 @@ import { createInvoice } from '@/app/lib/actions';
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
   const initialState ={massage:null,errors:{}} 
-  const [state, dispatch] = useFormState( createInvoice, initialState)
+  const [state, dispatch] = useFormState( createInvoice, initialState);
+  
   return (
     <form action={dispatch}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">

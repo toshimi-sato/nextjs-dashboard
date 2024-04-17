@@ -19,25 +19,27 @@ const FormSchema = z.object({
     date:z.string()
 });
 
-export type State ={
-    errors?:{
-        customerId?: string[];
-        amount?: string[];
-        status?: string[];
+export type State = {
+    errors? : {
+      customerId?: string[];
+      amount?: string[];
+      status?: string[];
     };
-    message?: string|null;
-}
+    message?: string | null;
+  };
 
 const CreateInvoice = FormSchema.omit({id:true,date:true});
 const UpdateInvoice = FormSchema.omit({id:true,date:true});
 
 
-export async function createInvoice(prevState:State,formData:FormData,) {
+export async function createInvoice(prevState:State,formData:FormData) {
+
     const validatedFields = CreateInvoice.safeParse({
         customerId: formData.get('customerId'),
         amount: formData.get('amount'),
-        status: formData.get('status')
+        status: formData.get('status'),
     });
+
     if (!validatedFields.success) {
         return {
           errors: validatedFields.error.flatten().fieldErrors,
@@ -56,7 +58,9 @@ export async function createInvoice(prevState:State,formData:FormData,) {
         `;
         
     } catch (error) {
-        return{message:error};
+        return {
+            message: 'Database Error: Failed to Create Invoice.',
+        };
     }
 
     revalidatePath('/dashboard/invoices');
